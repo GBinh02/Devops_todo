@@ -1,32 +1,34 @@
 import { Link, useLocation } from 'react-router-dom'
 
-function Navbar() {
+export default function Navbar() {
   const { pathname } = useLocation()
 
-  const linkStyle = (path) => ({
-    color: '#fff',
-    textDecoration: 'none',
-    fontWeight: pathname === path ? 'bold' : 'normal',
-    padding: '4px 8px',
-    borderRadius: 4,
-    background: pathname === path ? 'rgba(255,255,255,0.2)' : 'transparent',
-  })
+  const link = (path, label) => (
+    <Link to={path} style={{
+      color: pathname === path ? '#fff' : 'rgba(255,255,255,0.7)',
+      textDecoration: 'none',
+      fontWeight: pathname === path ? 600 : 400,
+      padding: '6px 14px',
+      borderRadius: 8,
+      background: pathname === path ? 'rgba(255,255,255,0.15)' : 'transparent',
+      transition: 'all 0.2s',
+      fontSize: 15,
+    }}>{label}</Link>
+  )
 
   return (
     <nav style={{
-      display: 'flex',
-      gap: 16,
-      padding: '12px 24px',
-      background: '#4f46e5',
-      alignItems: 'center',
+      display: 'flex', alignItems: 'center', gap: 8,
+      padding: '0 24px', height: 56,
+      background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+      boxShadow: '0 2px 12px rgba(79,70,229,0.3)',
+      position: 'sticky', top: 0, zIndex: 10,
     }}>
-      <span style={{ color: '#fff', fontWeight: 'bold', marginRight: 8 }}>
-        📝 TodoApp
+      <span style={{ color: '#fff', fontWeight: 700, fontSize: 18, marginRight: 12 }}>
+        ✅ TodoApp
       </span>
-      <Link to="/"      style={linkStyle('/')}>Công việc</Link>
-      <Link to="/about" style={linkStyle('/about')}>Về tôi</Link>
+      {link('/', 'Công việc')}
+      {link('/about', 'Về tôi')}
     </nav>
   )
 }
-
-export default Navbar

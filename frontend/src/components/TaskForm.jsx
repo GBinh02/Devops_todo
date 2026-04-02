@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-function TaskForm({ onAdd }) {
+export default function TaskForm({ onAdd }) {
   const [title, setTitle] = useState('')
+  const [focused, setFocused] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -11,28 +12,30 @@ function TaskForm({ onAdd }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
       <input
         value={title}
         onChange={e => setTitle(e.target.value)}
-        placeholder="Nhập công việc mới..."
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        placeholder="Thêm công việc mới..."
         style={{
-          flex: 1, padding: '10px 14px', fontSize: 15,
-          borderRadius: 8, border: '1px solid #d1d5db', outline: 'none',
+          flex: 1, padding: '12px 16px', fontSize: 15,
+          borderRadius: 10, border: `2px solid ${focused ? '#4f46e5' : '#e5e7eb'}`,
+          outline: 'none', background: '#fff',
+          transition: 'border-color 0.2s',
+          boxShadow: focused ? '0 0 0 3px rgba(79,70,229,0.1)' : 'none',
         }}
       />
-      <button
-        type="submit"
-        style={{
-          padding: '10px 20px', fontSize: 15, cursor: 'pointer',
-          background: '#4f46e5', color: '#fff',
-          border: 'none', borderRadius: 8,
-        }}
-      >
+      <button type="submit" disabled={!title.trim()} style={{
+        padding: '12px 22px', fontSize: 15, fontWeight: 600,
+        background: title.trim() ? '#4f46e5' : '#c7d2fe',
+        color: '#fff', border: 'none', borderRadius: 10,
+        cursor: title.trim() ? 'pointer' : 'default',
+        transition: 'all 0.2s', whiteSpace: 'nowrap',
+      }}>
         + Thêm
       </button>
     </form>
   )
 }
-
-export default TaskForm
